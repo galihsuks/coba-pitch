@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/style.css">
+    <title>Yoks Pitch</title>
+    <script src="https://unpkg.com/ml5@latest/dist/ml5.min.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/p5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.sound.min.js"></script>
+</head>
+<body>
+    <div style="margin-top: 50%;">
+        <h1>PITCH DETECTION</h1>
+        <p id='status'>Loading Model...</p>
+        <p class='result'></p>
+        <p class='result'></p>
+    </div>
+    <script defer>
+        const model_url = 'https://cdn.jsdelivr.net/gh/ml5js/ml5-data-and-models/models/pitch-detection/crepe/';
+        let audioContext;
+        let mic;
+        let pitch;
+        const chords = ['C','Db','D','Eb','E','F','Gb','G','Ab','A','Bb','B']
+
+        function setup() {
+            noCanvas();
+            audioContext = getAudioContext();
+            mic = new p5.AudioIn();
+            mic.start(startPitch);
+            userStartAudio();
+        }
+        function startPitch() {
+            pitch = ml5.pitchDetection(model_url, audioContext , mic.stream, modelLoaded);
+        }
+        function modelLoaded() {
+            document.querySelector('#status').textContent='Model Loaded';
+            getPitch();
+        }
+        function getPitch() {
+            pitch.getPitch(function(err, frequency) {
+                if (frequency) {
+                    if(mic.getLevel()>0.06){
+                        let midiNum = freqToMidi(frequency)
+                        document.querySelectorAll('.result')[0].textContent = frequency.toFixed(2);
+                        document.querySelectorAll('.result')[1].textContent = chords[midiNum % 12];
+                    }
+                } else {
+                    document.querySelectorAll('.result')[0].textContent = 'No pitch detected';
+                }
+                getPitch();
+            })
+        }
+    </script>
+</body>
+</html>

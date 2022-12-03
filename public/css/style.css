@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins';
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    background-color: whitesmoke;
+    padding: 0 50px;
+    color: #1a1a1a;
+    text-align: center;
+}
+
+.tmb-lonjong {
+    background: #0CCA98;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+    border-radius: 50px;
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    padding: 5px 20px;
+    transition: 0.2s;
+    margin: 3px;
+    cursor: pointer;
+}
+.tmb-lonjong:hover {
+    background: white;
+    color: #462653;
+    transition: 0.2s;
+}
+.panjang {
+    padding: 5px 55px;
+}
+
+button {
+    border: none;
+    outline: none;
+    display: block;
+}
